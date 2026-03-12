@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 
 export default function Navbar() {
@@ -84,39 +84,41 @@ export default function Navbar() {
         </div>
 
         {/* Mobile Navigation */}
-        {mobileMenuOpen && (
-          <motion.div
-            className="md:hidden"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <div className="px-2 pt-2 pb-3 space-y-1 border-t border-gray-800">
-              <a
-                href="#search"
-                className="block px-3 py-2 text-white hover:text-gray-300 transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Search
-              </a>
-              <a
-                href="#trending"
-                className="block px-3 py-2 text-white hover:text-gray-300 transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Trending
-              </a>
-              <a
-                href="#about"
-                className="block px-3 py-2 text-white hover:text-gray-300 transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                About
-              </a>
-            </div>
-          </motion.div>
-        )}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              className="md:hidden"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="px-2 pt-2 pb-3 space-y-1 border-t border-gray-800">
+                <a
+                  href="#search"
+                  className="block px-3 py-2 text-white hover:text-gray-300 transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Search
+                </a>
+                <a
+                  href="#trending"
+                  className="block px-3 py-2 text-white hover:text-gray-300 transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Trending
+                </a>
+                <a
+                  href="#about"
+                  className="block px-3 py-2 text-white hover:text-gray-300 transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  About
+                </a>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </motion.nav>
   );

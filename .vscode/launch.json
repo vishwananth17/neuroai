@@ -2,6 +2,14 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "node",
+            "request": "launch",
+            "name": "Run autoprefixer",
+            "runtimeExecutable": "autoprefixer",
+            "cwd": "${workspaceFolder}",
+            "args": []
+        },
+        {
             "name": "Dart: Run all Tests",
             "type": "dart",
             "request": "launch",
