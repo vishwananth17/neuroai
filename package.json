@@ -4,7 +4,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npm run dev --prefix neuroai"
+    "dev": "npm run dev --prefix neuroai",
+    "build": "npm run build --prefix neuroai",
+    "start": "npm run start --prefix neuroai",
+    "lint": "npm run lint --prefix neuroai"
   },
   "keywords": [],
   "author": "",
