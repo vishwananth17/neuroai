@@ -1,12 +1,19 @@
 import { generateText, streamText } from 'ai';
-import { AI_MODELS, AGENT_CONFIG, ERROR_MESSAGES } from '../config';
-import { AIAgent, AgentTask, TaskStatus, PerformanceMetrics } from '../types';
+import { AGENT_CONFIG } from '../config';
+import {
+  AIAgent,
+  AgentCapability,
+  AgentRole,
+  AgentTask,
+  PerformanceMetrics,
+  TaskStatus,
+} from '../types';
 
 export abstract class BaseAgent implements AIAgent {
   public id: string;
   public name: string;
-  public role: string;
-  public capabilities: string[];
+  public role: AgentRole;
+  public capabilities: AgentCapability[];
   public model: string;
   public is_active: boolean;
   public performance_metrics: PerformanceMetrics;
@@ -14,8 +21,8 @@ export abstract class BaseAgent implements AIAgent {
   constructor(
     id: string,
     name: string,
-    role: string,
-    capabilities: string[],
+    role: AgentRole,
+    capabilities: AgentCapability[],
     model: string
   ) {
     this.id = id;
@@ -48,11 +55,15 @@ export abstract class BaseAgent implements AIAgent {
     
     try {
       const model = this.getModel();
+      const profile =
+        this.role === 'paper_summarizer'
+          ? AGENT_CONFIG.paper_summarizer
+          : AGENT_CONFIG.research_analyst;
       const config = {
         model,
         prompt,
-        maxTokens: options.maxTokens || AGENT_CONFIG.MAX_TOKENS,
-        temperature: options.temperature || AGENT_CONFIG.TEMPERATURE,
+        maxTokens: options.maxTokens ?? profile.max_tokens,
+        temperature: options.temperature ?? profile.temperature,
       };
 
       let result: string;
@@ -89,16 +100,10 @@ export abstract class BaseAgent implements AIAgent {
    * Get the appropriate model for this agent
    */
   protected getModel() {
-    switch (this.model) {
-      case 'research_analyst':
-        return AI_MODELS.RESEARCH_ANALYST;
-      case 'quick_responder':
-        return AI_MODELS.QUICK_RESPONDER;
-      case 'reasoning_engine':
-        return AI_MODELS.REASONING_ENGINE;
-      default:
-        return AI_MODELS.QUICK_RESPONDER;
+    if (this.role === 'paper_summarizer') {
+      return AGENT_CONFIG.paper_summarizer.model;
     }
+    return AGENT_CONFIG.research_analyst.model;
   }
 
   /**

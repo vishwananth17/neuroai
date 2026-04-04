@@ -16,8 +16,9 @@ const dmMono = DM_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "NeuroAI - AI-powered research assistant",
-  description: "Search papers, get insights, and explore the latest research in neuroscience and AI",
+  title: "NeuroAI — Research Smarter. Think Deeper.",
+  description:
+    "AI research assistant for Indian engineering students: search papers, read summaries, and draft literature reviews with Semantic Scholar and NeuroAI.",
 };
 
 export default function RootLayout({
@@ -27,7 +28,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth dark">
-      <body className={`${dmMono.variable} ${syne.variable} font-sans antialiased bg-[#050508] text-[#F0F0FF] selection:bg-[#6C63FF] selection:text-white`}>
+      <body
+        className={`${dmMono.variable} ${syne.variable} font-sans antialiased bg-[var(--color-void)] text-[var(--text-primary)] selection:bg-[#6C63FF] selection:text-white`}
+      >
         <div className="cosmic-noise"></div>
         {children}
       </body>

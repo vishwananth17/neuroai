@@ -1,49 +1,41 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowTopRightOnSquareIcon, CalendarIcon, UserIcon } from '@heroicons/react/24/outline';
 
-// Sample trending papers data
-const trendingPapers = [
-  {
-    id: 1,
-    title: "Attention Is All You Need: The Transformer Architecture Revolution",
-    authors: ["Ashish Vaswani", "Noam Shazeer", "Niki Parmar"],
-    year: 2023,
-    citations: 1250,
-    abstract: "We propose a new simple network architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely...",
-    category: "Machine Learning"
-  },
-  {
-    id: 2,
-    title: "Deep Learning for Neural Network Interpretability",
-    authors: ["Sarah Chen", "Michael Rodriguez", "Emily Zhang"],
-    year: 2023,
-    citations: 890,
-    abstract: "This paper presents novel approaches to understanding and interpreting deep neural networks through visualization and analysis techniques...",
-    category: "Neuroscience"
-  },
-  {
-    id: 3,
-    title: "Quantum Computing in AI: A Comprehensive Survey",
-    authors: ["David Kim", "Lisa Wang", "James Thompson"],
-    year: 2023,
-    citations: 567,
-    abstract: "We survey the current state of quantum computing applications in artificial intelligence and machine learning...",
-    category: "Quantum AI"
-  },
-  {
-    id: 4,
-    title: "Ethical AI: Principles and Implementation",
-    authors: ["Maria Garcia", "Robert Johnson", "Anna Lee"],
-    year: 2023,
-    citations: 432,
-    abstract: "This paper discusses the fundamental principles of ethical AI and provides practical guidelines for implementation...",
-    category: "AI Ethics"
-  }
-];
+interface TrendingPaper {
+  id: string;
+  title: string;
+  abstract: string;
+  authors: string[];
+  year: number;
+  citations: number;
+  url: string;
+  category: string;
+}
 
 export default function TrendingPapers() {
+  const [papers, setPapers] = useState<TrendingPaper[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchTrending() {
+      try {
+        const res = await fetch('/api/trending?category=artificial%20intelligence&limit=4');
+        const json = await res.json();
+        if (json.success) {
+          setPapers(json.data.papers);
+        }
+      } catch (err) {
+        console.error('Failed to fetch trending papers', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchTrending();
+  }, []);
+
   return (
     <section id="trending" className="py-16 bg-gray-50 dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -58,12 +50,16 @@ export default function TrendingPapers() {
             Trending Papers
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            Discover the most cited and discussed research papers in neuroscience and AI
+            Fresh picks from Semantic Scholar — useful for lit surveys, internships, and GATE-aligned deep dives
           </p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
-          {trendingPapers.map((paper, index) => (
+          {loading ? (
+            <div className="col-span-1 md:col-span-2 text-center text-gray-500 py-12">
+              Loading real-time trending papers...
+            </div>
+          ) : papers.map((paper, index) => (
             <motion.div
               key={paper.id}
               className="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 dark:border-gray-700"
@@ -81,6 +77,9 @@ export default function TrendingPapers() {
                   <motion.button
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
+                    onClick={() => {
+                        if (paper.url) window.open(paper.url, '_blank');
+                    }}
                     className="text-gray-400 hover:text-black dark:hover:text-white transition-colors"
                   >
                     <ArrowTopRightOnSquareIcon className="h-5 w-5" />
@@ -99,7 +98,7 @@ export default function TrendingPapers() {
                   <div className="flex items-center space-x-4">
                     <div className="flex items-center">
                       <UserIcon className="h-4 w-4 mr-1" />
-                      <span>{paper.authors[0]} et al.</span>
+                      <span className="truncate max-w-[120px]">{paper.authors && paper.authors.length > 0 ? `${paper.authors[0]} et al.` : 'Unknown'}</span>
                     </div>
                     <div className="flex items-center">
                       <CalendarIcon className="h-4 w-4 mr-1" />

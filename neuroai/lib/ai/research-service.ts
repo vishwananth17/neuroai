@@ -149,7 +149,7 @@ export class ResearchService {
         category,
         max_results: limit,
         year_range: [new Date().getFullYear() - 2, new Date().getFullYear()],
-        min_citations: QUALITY_METRICS.CITATION_MINIMUM,
+        min_citations: QUALITY_METRICS.citation_threshold,
       };
 
       const result = await this.agentManager.searchPapers(trendingQuery);

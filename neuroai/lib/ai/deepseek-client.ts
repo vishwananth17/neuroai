@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { AI_MODELS, API_CONFIG, togetherClient } from './config';
+import { generateText } from 'ai';
+import { AI_MODELS, API_CONFIG, togetherProvider } from './config';
 
 export interface DeepSeekMessage {
   role: 'system' | 'user' | 'assistant';
@@ -123,34 +124,40 @@ export class DeepSeekClient {
     } = {}
   ): Promise<DeepSeekResponse> {
     try {
-      const response = await togetherClient.chat({
-        model: options.model || AI_MODELS.together.llama3_70b,
-        messages: messages.map(msg => ({
+      const modelId = options.model || AI_MODELS.together.llama3_70b;
+      const { text, usage } = await generateText({
+        model: togetherProvider(modelId),
+        messages: messages.map((msg) => ({
           role: msg.role,
-          content: msg.content
+          content: msg.content,
         })),
         temperature: options.temperature ?? 0.7,
-        maxTokens: options.max_tokens ?? 2000,
+        maxOutputTokens: options.max_tokens ?? 2000,
       });
+
+      const promptTokens = usage?.inputTokens ?? 0;
+      const completionTokens = usage?.outputTokens ?? 0;
 
       return {
         id: `together-${Date.now()}`,
         object: 'chat.completion',
         created: Date.now(),
-        model: response.model,
-        choices: [{
-          index: 0,
-          message: {
-            role: 'assistant',
-            content: response.content
+        model: modelId,
+        choices: [
+          {
+            index: 0,
+            message: {
+              role: 'assistant',
+              content: text,
+            },
+            finish_reason: 'stop',
           },
-          finish_reason: 'stop'
-        }],
+        ],
         usage: {
-          prompt_tokens: response.usage?.promptTokens || 0,
-          completion_tokens: response.usage?.completionTokens || 0,
-          total_tokens: response.usage?.totalTokens || 0
-        }
+          prompt_tokens: promptTokens,
+          completion_tokens: completionTokens,
+          total_tokens: promptTokens + completionTokens,
+        },
       };
     } catch (error) {
       throw new Error(`Together.ai fallback failed: ${error}`);

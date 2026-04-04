@@ -22,7 +22,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-[#050508] text-[#F0F0FF] overflow-hidden selection:bg-[#6C63FF] selection:text-white font-sans">
+    <div className="relative min-h-screen bg-[var(--color-void)] text-[var(--text-primary)] overflow-hidden selection:bg-[#6C63FF] selection:text-white font-sans">
       
       {/* Background Glowing Orbs */}
       <motion.div 
@@ -54,7 +54,7 @@ export default function Home() {
         </div>
         
         <nav className="flex flex-col gap-4 mt-8">
-          {['Dashboard', 'Research', 'Datasets', 'Neural Sync'].map((item, i) => (
+          {['Dashboard', 'Search', 'Library', 'Chat'].map((item, i) => (
             <button key={item} className="text-left py-3 px-4 rounded-xl text-sm font-medium uppercase tracking-[0.15em] text-[#7A7A9D] hover:text-[#00F5FF] hover:bg-white/5 transition-all group relative overflow-hidden">
               <span className="relative z-10">{item}</span>
               <div className="absolute inset-0 bg-gradient-to-r from-[#6C63FF]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -114,26 +114,47 @@ export default function Home() {
             transition={{ duration: 0.8, ease: "easeOut" }}
             style={{ x: mousePos.x * 3, y: mousePos.y * 3 }}
           >
-            <h2 className="font-display font-black text-6xl md:text-7xl lg:text-[5rem] leading-tight mb-6 bg-gradient-to-br from-[#00F5FF] via-[#F0F0FF] to-[#6C63FF] bg-clip-text text-transparent">
-              TRANSCEND <br /> RESEARCH.
+            <p className="text-xs uppercase tracking-[0.2em] text-[var(--color-cyan)] mb-4 font-medium">
+              Research Smarter. Think Deeper.
+            </p>
+            <h2 className="font-display font-black text-5xl md:text-6xl lg:text-[4.25rem] leading-tight mb-6 bg-[var(--grad-hero)] bg-clip-text text-transparent">
+              Papers explained.
+              <br />
+              Reviews drafted.
             </h2>
-            <p className="font-sans text-lg md:text-xl text-[#7A7A9D] max-w-2xl mx-auto uppercase tracking-[0.15em] leading-relaxed">
-              Navigate millions of parameters. Isolate relevant data. 
-              Deploy AI-assisted insights in a frictionless zero-gravity environment.
+            <p className="font-sans text-base md:text-lg text-[var(--text-secondary)] max-w-2xl mx-auto leading-relaxed">
+              Built for B.Tech and BE students in India: find credible work fast, understand dense PDFs in plain English,
+              and line up citations for your project report — without expensive research tools.
             </p>
             
-            <motion.button 
+            <motion.button
+              type="button"
+              onClick={() =>
+                document.getElementById('search')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+              }
               className="mt-10 px-10 py-4 rounded-full bg-gradient-to-r from-[#6C63FF] to-[#00F5FF] text-white font-bold uppercase tracking-widest text-sm relative group overflow-hidden"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               <div className="absolute inset-0 bg-white/20 translate-y-[100%] group-hover:translate-y-[0%] transition-transform duration-300"></div>
               <span className="relative z-10 flex items-center gap-3">
-                Initialize Sequence 
+                Start searching papers
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
               </span>
             </motion.button>
           </motion.div>
+        </section>
+
+        <section className="mb-24 w-full max-w-4xl mx-auto px-2">
+          <motion.p
+            className="text-center text-xs uppercase tracking-[0.2em] text-[var(--text-muted)] mb-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+          >
+            Semantic Scholar search · summaries & chat coming to your library
+          </motion.p>
+          <SearchBar />
         </section>
 
         {/* Feature Cards Grid */}
@@ -147,9 +168,9 @@ export default function Home() {
             <div className="w-12 h-12 rounded-xl bg-[#6C63FF]/20 border border-[#6C63FF]/30 flex items-center justify-center mb-2 group-hover:bg-[#6C63FF]/40 transition-colors">
               <svg className="w-6 h-6 text-[#00F5FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
             </div>
-            <h3 className="font-display font-bold text-xl text-white">Quantum Search</h3>
+            <h3 className="font-display font-bold text-xl text-white">Paper search</h3>
             <p className="text-[#7A7A9D] text-sm leading-relaxed">
-              Query millions of academic papers with context-aware natural language processing.
+              Query Semantic Scholar with fields, citations, and TL;DR snippets so you shortlist papers in minutes.
             </p>
             <div className="mt-auto pt-4 border-t border-white/5 flex items-center text-[#6C63FF] text-xs uppercase tracking-widest font-bold">
               Access Module →
@@ -165,9 +186,9 @@ export default function Home() {
             <div className="w-12 h-12 rounded-xl bg-[#00F5FF]/10 border border-[#00F5FF]/30 flex items-center justify-center mb-2 group-hover:bg-[#00F5FF]/30 transition-colors">
               <svg className="w-6 h-6 text-[#6C63FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
             </div>
-            <h3 className="font-display font-bold text-xl text-white">Neural Synthesizer</h3>
+            <h3 className="font-display font-bold text-xl text-white">AI summaries</h3>
             <p className="text-[#7A7A9D] text-sm leading-relaxed">
-              Automatically generate literature reviews and synthesize contradictory findings across disciplines.
+              Brief, detailed, ELI5, and technical breakdowns tuned for busy engineering students — grounded in the paper.
             </p>
             <div className="mt-auto pt-4 border-t border-white/5 flex items-center text-[#00F5FF] text-xs uppercase tracking-widest font-bold">
               Access Module →
@@ -184,9 +205,9 @@ export default function Home() {
                <div className="absolute inset-0 rounded-xl bg-[#6C63FF] blur-md opacity-20 group-hover:opacity-40 transition-opacity"></div>
               <svg className="w-6 h-6 text-white relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
             </div>
-            <h3 className="font-display font-bold text-xl text-white">Predictive Trends</h3>
+            <h3 className="font-display font-bold text-xl text-white">Library & citations</h3>
             <p className="text-[#7A7A9D] text-sm leading-relaxed">
-              Analyze citation pathways to predict emerging fields and paradigm shifts before they happen.
+              Save papers to collections, export citations (IEEE / APA), and keep everything synced for viva and submissions.
             </p>
             <div className="mt-auto pt-4 border-t border-white/5 flex items-center text-white text-xs uppercase tracking-widest font-bold">
               Access Module →

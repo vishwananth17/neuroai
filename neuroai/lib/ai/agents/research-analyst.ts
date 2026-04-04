@@ -47,11 +47,11 @@ export class ResearchAnalystAgent extends BaseAgent {
 
     try {
       // Search arXiv
-      const arxivResults = await arxiv.searchPapers(query.query, query.max_results || 10);
+      const arxivResults = await arxiv.search(query.query, query.max_results || 10);
       papers.push(...this.transformArxivResults(arxivResults));
 
       // Search Semantic Scholar
-      const semanticResults = await semanticScholar.searchPapers(query.query, query.max_results || 10);
+      const semanticResults = await semanticScholar.search(query.query, query.max_results || 10);
       papers.push(...this.transformSemanticScholarResults(semanticResults));
 
       // Remove duplicates and sort by relevance

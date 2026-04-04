@@ -1,13 +1,48 @@
 @import "tailwindcss";
 
 :root {
-  --background: #050508;
-  --foreground: #F0F0FF;
-  --surface: rgba(255, 255, 255, 0.04);
-  --primary-glow: #6C63FF;
-  --accent-glow: #00F5FF;
-  --muted: #7A7A9D;
-  --success: #00FFB2;
+  /* Legacy aliases (existing utilities) */
+  --background: #030306;
+  --foreground: #e8e8ff;
+  --surface: rgba(255, 255, 255, 0.035);
+  --primary-glow: #6c63ff;
+  --accent-glow: #00f5ff;
+  --muted: #9898c0;
+  --success: #00ffb2;
+
+  /* Spec: Anti-gravity dark cosmos */
+  --color-void: #030306;
+  --color-space: #07070f;
+  --color-surface: #0d0d1c;
+  --color-elevated: #12122a;
+  --color-glass: rgba(255, 255, 255, 0.035);
+  --color-glass-hover: rgba(255, 255, 255, 0.06);
+  --color-indigo: #6c63ff;
+  --color-cyan: #00f5ff;
+  --color-violet: #a855f7;
+  --color-emerald: #00ffb2;
+  --color-rose: #ff3d7f;
+  --color-amber: #ffb700;
+  --glow-indigo-sm: 0 0 16px rgba(108, 99, 255, 0.25);
+  --glow-indigo-md: 0 0 32px rgba(108, 99, 255, 0.35);
+  --glow-indigo-lg: 0 0 64px rgba(108, 99, 255, 0.2);
+  --glow-cyan-sm: 0 0 16px rgba(0, 245, 255, 0.2);
+  --glow-cyan-md: 0 0 32px rgba(0, 245, 255, 0.3);
+  --text-star: #ffffff;
+  --text-primary: #e8e8ff;
+  --text-secondary: #9898c0;
+  --text-muted: #5a5a80;
+  --text-ghost: #2a2a45;
+  --border-glass: rgba(255, 255, 255, 0.06);
+  --border-glow-indigo: rgba(108, 99, 255, 0.35);
+  --border-glow-cyan: rgba(0, 245, 255, 0.25);
+  --grad-brand: linear-gradient(135deg, #6c63ff, #00f5ff);
+  --grad-hero: linear-gradient(160deg, #6c63ff 0%, #a855f7 50%, #00f5ff 100%);
+  --grad-card: linear-gradient(180deg, rgba(108, 99, 255, 0.06) 0%, transparent 60%);
+  --grad-shine: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.04), transparent);
+  --color-info: var(--color-cyan);
+  --color-error: var(--color-rose);
+  --color-warning: var(--color-amber);
 }
 
 @theme {
@@ -130,6 +165,43 @@ body {
   filter: blur(50px);
   z-index: -1;
   pointer-events: none;
+}
+
+/* Spec glass card */
+.card {
+  background: var(--color-glass);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--border-glass);
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.28s cubic-bezier(0.23, 1, 0.32, 1),
+    box-shadow 0.28s cubic-bezier(0.23, 1, 0.32, 1),
+    border-color 0.28s ease;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--color-indigo) 50%,
+    transparent 100%
+  );
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--glow-indigo-md);
+  border-color: var(--border-glow-indigo);
 }
 
 /* Code Blocks */

@@ -1,4 +1,4 @@
-import { togetherai } from '@ai-sdk/togetherai';
+import { createTogetherAI } from '@ai-sdk/togetherai';
 
 // AI Model Configurations
 export const AI_MODELS = {
@@ -106,7 +106,7 @@ export const RESEARCH_CATEGORIES = {
   all: ['research', 'science', 'technology', 'academic', 'study', 'analysis']
 };
 
-// Export the Together.ai client
-export const togetherClient = togetherai({
+/** Together.ai provider — use `togetherProvider(modelId)` with `generateText` from `ai`. */
+export const togetherProvider = createTogetherAI({
   apiKey: process.env.TOGETHER_AI_API_KEY || '',
-}); 
+});

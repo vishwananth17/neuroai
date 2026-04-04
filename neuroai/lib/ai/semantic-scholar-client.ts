@@ -50,7 +50,7 @@ export class SemanticScholarDatasetsClient {
       'Content-Type': 'application/json',
     };
     
-    if (this.apiKey) {
+    if (this.apiKey && !this.apiKey.includes('your_')) {
       headers['x-api-key'] = this.apiKey;
     }
     
@@ -76,6 +76,21 @@ export class SemanticScholarDatasetsClient {
     const cacheKey = 'latest-release';
     const cached = this.getCachedData(cacheKey);
     if (cached) return cached;
+
+    // Use mock data if API key is not configured to avoid breaking the UI
+    if (!this.apiKey || this.apiKey.includes('your_')) {
+        const mockData = {
+            release_id: 'release-2023-12-05',
+            README: 'Semantic Scholar Open Research Corpus. (Note: Using mock data because API key is not configured in .env.local). Features robust academic data for papers, authors, citations, and more.',
+            datasets: [
+                { name: 'papers', description: 'Metadata for all papers, including titles, authors, and year.', README: '', files: ['papers-v1.jsonl.gz', 'papers-v2.jsonl.gz'] },
+                { name: 'abstracts', description: 'Paper abstracts and summaries.', README: '', files: ['abstracts-v1.jsonl.gz'] },
+                { name: 'authors', description: 'Author metadata and publication history.', README: '', files: ['authors-v1.jsonl.gz'] }
+            ]
+        };
+        this.setCachedData(cacheKey, mockData);
+        return mockData;
+    }
 
     try {
       const response = await axios.get(`${this.baseUrl}/release/latest`, {

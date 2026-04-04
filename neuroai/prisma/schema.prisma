@@ -1,0 +1,176 @@
+// NeuroAI — PostgreSQL + pgvector in Supabase: CREATE EXTENSION IF NOT EXISTS vector;
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  // Use SQLite for development (no external DB needed)
+  // For production, switch to: provider = "postgresql"
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String    @id @default(cuid())
+  email          String    @unique
+  name           String
+  college        String?
+  branch         String?
+  year           Int?
+  avatar         String?
+  passwordHash   String
+  emailVerified  Boolean   @default(false)
+  plan           Plan      @default(FREE)
+  dailySearches  Int       @default(0)
+  dailyAIQueries Int       @default(0)
+  lastActiveAt   DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  sessions      Session[]
+  searches      SearchHistory[]
+  savedPapers   SavedPaper[]
+  collections   Collection[]
+  chatSessions  ChatSession[]
+  notifications Notification[]
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  refreshToken String   @unique
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  body      String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Paper {
+  id              String   @id @default(cuid())
+  semanticId      String   @unique
+  title           String
+  abstract        String
+  authors         Json
+  year            Int?
+  venue           String?
+  doi             String?
+  url             String?
+  pdfUrl          String?
+  citationCount   Int      @default(0)
+  referenceCount  Int      @default(0)
+  fieldsOfStudy   Json     // Array as JSON for SQLite
+  tldr            String?
+  fetchedAt       DateTime @default(now())
+
+  summaries PaperSummary[]
+  savedBy   SavedPaper[]
+}
+
+model PaperSummary {
+  id           String      @id @default(cuid())
+  paperId      String
+  paper        Paper       @relation(fields: [paperId], references: [id], onDelete: Cascade)
+  userId       String?
+  summaryType  SummaryType
+  content      String
+  modelUsed    String
+  tokensUsed   Int
+  qualityScore Float?
+  createdAt    DateTime    @default(now())
+}
+
+model SearchHistory {
+  id             String   @id @default(cuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  query          String
+  resultsCount   Int
+  clickedPaperId String?
+  createdAt      DateTime @default(now())
+
+  @@index([userId, createdAt])
+}
+
+model SavedPaper {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  paperId      String
+  paper        Paper    @relation(fields: [paperId], references: [id], onDelete: Cascade)
+  collectionId String?
+  collection   Collection? @relation(fields: [collectionId], references: [id], onDelete: SetNull)
+  notes        String?
+  savedAt      DateTime @default(now())
+
+  @@unique([userId, paperId])
+  @@index([userId, savedAt])
+}
+
+model Collection {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name        String
+  description String?
+  isPublic    Boolean  @default(false)
+  papers      SavedPaper[]
+  createdAt   DateTime @default(now())
+
+  @@index([userId, createdAt])
+}
+
+model ChatSession {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  paperId   String?
+  title     String?
+  messages  ChatMessage[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId, updatedAt])
+}
+
+model ChatMessage {
+  id         String      @id @default(cuid())
+  sessionId  String
+  session    ChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  role       MessageRole
+  content    String
+  sources    Json?
+  tokensUsed Int?
+  modelUsed  String?
+  createdAt  DateTime    @default(now())
+
+  @@index([sessionId, createdAt])
+}
+
+enum Plan {
+  FREE
+  STUDENT
+  PRO
+}
+
+enum SummaryType {
+  BRIEF
+  DETAILED
+  ELI5
+  TECHNICAL
+  LITERATURE_REVIEW
+}
+
+enum MessageRole {
+  USER
+  ASSISTANT
+  SYSTEM
+}
