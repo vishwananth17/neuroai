@@ -1,8 +1,7 @@
 .env.local
 .env.*.local
 dev.db
-node_modules
 .git
 .gitignore
-README.md
 docs
+*.md
