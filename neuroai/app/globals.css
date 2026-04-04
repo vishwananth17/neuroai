@@ -150,9 +150,9 @@ body {
   position: absolute;
   width: 300px;
   height: 300px;
-  background: radial-gradient(circle, rgba(108,99,255,0.4) 0%, rgba(108,99,255,0) 70%);
+  background: radial-gradient(circle, rgba(108,99,255,0.08) 0%, rgba(108,99,255,0) 70%);
   border-radius: 50%;
-  filter: blur(60px);
+  filter: blur(80px);
   z-index: -1;
   pointer-events: none;
 }
@@ -160,9 +160,9 @@ body {
   position: absolute;
   width: 250px;
   height: 250px;
-  background: radial-gradient(circle, rgba(0,245,255,0.3) 0%, rgba(0,245,255,0) 70%);
+  background: radial-gradient(circle, rgba(0,245,255,0.06) 0%, rgba(0,245,255,0) 70%);
   border-radius: 50%;
-  filter: blur(50px);
+  filter: blur(70px);
   z-index: -1;
   pointer-events: none;
 }
