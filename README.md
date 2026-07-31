@@ -1,433 +1,318 @@
 <div align="center">
 
-# ⚖️ Corporate Agent
-### AI-Powered ADGM Legal Document Review using RAG + LLM
-
-<img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=26&pause=1000&color=00C2FF&center=true&vCenter=true&width=700&lines=AI+Legal+Document+Analyzer;Retrieval-Augmented+Generation+(RAG);LLM-Powered+Legal+Assistant;Automated+Compliance+Review;Built+with+Python+%7C+LangChain+%7C+OpenAI" />
+# NeuroAI
+## AI-Powered Multi-Agent Research Assistant
 
 <p align="center">
+
+<img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=26&pause=1000&color=4A90E2&center=true&vCenter=true&width=750&lines=AI-Powered+Research+Assistant;Multi-Agent+Research+Automation;Semantic+Search+and+Paper+Analysis;Academic+Research+Made+Intelligent;Built+with+Next.js+and+AI"/>
+
+<br>
+
+<img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white"/>
 <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white"/>
-<img src="https://img.shields.io/badge/OpenAI-412991?style=for-the-badge&logo=openai&logoColor=white"/>
-<img src="https://img.shields.io/badge/LangChain-000000?style=for-the-badge"/>
-<img src="https://img.shields.io/badge/FAISS-009688?style=for-the-badge"/>
-<img src="https://img.shields.io/badge/RAG-AI-blue?style=for-the-badge"/>
-<img src="https://img.shields.io/badge/LLM-GPT-green?style=for-the-badge"/>
-<img src="https://img.shields.io/badge/License-MIT-success?style=for-the-badge"/>
+<img src="https://img.shields.io/badge/DeepSeek-LLM-success?style=for-the-badge"/>
+<img src="https://img.shields.io/badge/Together%20AI-API-blue?style=for-the-badge"/>
+<img src="https://img.shields.io/badge/Semantic%20Scholar-Research-orange?style=for-the-badge"/>
+<img src="https://img.shields.io/badge/arXiv-Academic-red?style=for-the-badge"/>
+
 </p>
 
 </div>
 
 ---
 
-# 📖 Overview
+# Overview
 
-Corporate Agent is an **AI-powered Legal Document Review System**
-built specifically for **ADGM (Abu Dhabi Global Market)** legal documents.
+NeuroAI is an AI-powered research assistant designed to simplify academic research in Artificial Intelligence and Neuroscience. The platform uses a multi-agent AI architecture to search, analyze, summarize, and evaluate research papers while generating actionable insights and recommendations.
 
-Instead of manually checking hundreds of pages, lawyers simply upload documents.
-
-The AI automatically
-
-✅ Detects document type
-
-✅ Finds missing documents
-
-✅ Flags legal risks
-
-✅ Reviews clauses
-
-✅ Retrieves ADGM regulations using RAG
-
-✅ Suggests improvements using LLM
-
-✅ Generates reviewed DOCX + JSON report
+By integrating multiple research databases and large language models, NeuroAI enables researchers, students, and professionals to explore scientific literature more efficiently and make informed research decisions.
 
 ---
 
-# 🚀 System Workflow
+# Key Features
+
+- Multi-agent AI architecture
+- Intelligent research paper discovery
+- Semantic search across academic literature
+- AI-generated paper summaries
+- Research quality assessment
+- Citation extraction and recommendations
+- Trend analysis across publications
+- Research insight generation
+- Interactive research dashboard
+- Fast and intuitive user interface
+
+---
+
+# System Workflow
 
 ```mermaid
 flowchart LR
 
-A[Upload ADGM Documents]
--->B(Document Parser)
+A[User Query]
+-->B[Query Processor]
 
-B-->C{Document Detection}
+B-->C[Semantic Scholar]
 
-C-->D[Checklist Validation]
+B-->D[arXiv]
 
-D-->E[Risk Detection]
+C-->E[Paper Collection]
 
-E-->F[RAG Search]
+D-->E
 
-F-->G[LLM Analysis]
+E-->F[Multi-Agent Processing]
 
-G-->H[Generate Suggestions]
+F-->G[Summarization Agent]
 
-H-->I[Reviewed DOCX]
+F-->H[Quality Assessment Agent]
 
-H-->J[JSON Report]
+F-->I[Trend Analysis Agent]
+
+F-->J[Recommendation Agent]
+
+G-->K[Research Dashboard]
+
+H-->K
+
+I-->K
+
+J-->K
 ```
 
 ---
 
-# 🧠 RAG Architecture
+# Multi-Agent Architecture
 
 ```mermaid
-flowchart TD
+graph TD
 
-User(User Uploads Query)
+User
 
-User --> Parser
+-->Frontend
 
-Parser --> Chunking
+Frontend
 
-Chunking --> Embeddings
+-->API
 
-Embeddings --> VectorDB[(FAISS)]
+API
 
-VectorDB --> Retriever
+-->SearchAgent
 
-Retriever --> Prompt
+SearchAgent
 
-Prompt --> GPT[LLM]
+-->SemanticScholar
 
-GPT --> Answer
+SearchAgent
 
-Answer --> ReviewedDocument
+-->arXiv
 
+SearchAgent
+
+-->PaperDatabase
+
+PaperDatabase
+
+-->SummaryAgent
+
+PaperDatabase
+
+-->QualityAgent
+
+PaperDatabase
+
+-->TrendAgent
+
+PaperDatabase
+
+-->RecommendationAgent
+
+SummaryAgent
+
+-->LLM
+
+QualityAgent
+
+-->LLM
+
+TrendAgent
+
+-->LLM
+
+RecommendationAgent
+
+-->LLM
+
+LLM
+
+-->Dashboard
 ```
 
 ---
 
-# ⚙️ AI Review Pipeline
+# Research Processing Pipeline
 
 ```text
+Research Query
 
-        📄 Upload Document
-                │
-                ▼
-     ┌────────────────────┐
-     │ Document Detection │
-     └────────────────────┘
-                │
-                ▼
-     ┌────────────────────┐
-     │ Clause Extraction  │
-     └────────────────────┘
-                │
-                ▼
-     ┌────────────────────┐
-     │ Missing Documents  │
-     └────────────────────┘
-                │
-                ▼
-     ┌────────────────────┐
-     │ Red Flag Detector  │
-     └────────────────────┘
-                │
-                ▼
-     ┌────────────────────┐
-     │  RAG Retrieval     │
-     └────────────────────┘
-                │
-                ▼
-     ┌────────────────────┐
-     │ GPT Recommendations│
-     └────────────────────┘
-                │
-                ▼
-      Reviewed DOCX + JSON
+      │
 
+      ▼
+
+Semantic Search
+
+      │
+
+      ▼
+
+Retrieve Research Papers
+
+      │
+
+      ▼
+
+Multi-Agent Processing
+
+──────────────────────────────
+
+Paper Summarization
+
+Quality Assessment
+
+Citation Analysis
+
+Trend Detection
+
+Research Recommendations
+
+──────────────────────────────
+
+      │
+
+      ▼
+
+Structured Research Insights
 ```
 
 ---
 
-# 🔥 Features
-
-## 📑 Automated Document Analysis
-
-- Detects ADGM legal document types
-- Reviews contracts automatically
-- Finds missing clauses
-
----
-
-## ⚠️ Risk Detection
-
-Flags
-
-- Missing Signatories
-- Non-ADGM References
-- Missing Approvals
-- Ambiguous Language
-- Compliance Issues
-
----
-
-## 📚 RAG Knowledge Base
-
-Uses Retrieval-Augmented Generation to search
-
-- ADGM Regulations
-- Legal References
-- Corporate Policies
-- Compliance Documents
-
-before generating answers.
-
----
-
-## 🤖 LLM Assistant
-
-Provides
-
-- Legal Explanation
-- Clause Suggestions
-- Compliance Advice
-- Smart Summaries
-
----
-
-## 📄 Output Generation
-
-Produces
-
-✔ Reviewed DOCX
-
-✔ JSON Summary
-
-✔ Compliance Report
-
-✔ AI Suggestions
-
----
-
-# 📊 Project Architecture
-
-```mermaid
-graph TB
-
-subgraph User
-
-A[Lawyer]
-
-end
-
-subgraph Backend
-
-B[FastAPI]
-
-C[Document Parser]
-
-D[Checklist Engine]
-
-E[Risk Detector]
-
-F[LangChain]
-
-G[OpenAI]
-
-H[FAISS]
-
-end
-
-subgraph Output
-
-I[Reviewed DOCX]
-
-J[JSON Report]
-
-end
-
-A --> B
-
-B --> C
-
-C --> D
-
-D --> E
-
-E --> F
-
-F --> H
-
-H --> G
-
-G --> I
-
-G --> J
-```
-
----
-
-# 📈 Review Process Animation
-
-```text
-
-Uploading Document...
-
-██████████░░░░░░░░ 35%
-
-Parsing...
-
-████████████████░░ 72%
-
-Searching ADGM Database...
-
-██████████████████ 90%
-
-Generating AI Suggestions...
-
-██████████████████████ 100%
-
-✓ Review Completed
-
-```
-
----
-
-# 🛠 Tech Stack
+# Technology Stack
 
 | Technology | Purpose |
 |------------|----------|
-| Python | Backend |
-| FastAPI | API |
-| LangChain | RAG |
-| OpenAI GPT | LLM |
-| FAISS | Vector Search |
-| DOCX | Document Processing |
-| JSON | Report Generation |
-| NLP | Text Processing |
+| Next.js | Frontend Framework |
+| Python | Backend Services |
+| Together AI | LLM Integration |
+| DeepSeek | AI Reasoning |
+| Semantic Scholar API | Research Paper Search |
+| arXiv API | Academic Paper Retrieval |
+| REST APIs | Data Integration |
+| JavaScript | Frontend Logic |
 
 ---
 
-# 📂 Folder Structure
+# Project Structure
 
 ```text
-Corporate-Agent/
+NeuroAI/
 
+├── frontend/
+│   ├── pages/
+│   ├── components/
+│   ├── styles/
 │
-
-├── app/
-
-│ ├── parser.py
-
-│ ├── rag.py
-
-│ ├── llm.py
-
-│ ├── checklist.py
-
-│ ├── reviewer.py
-
+├── backend/
+│   ├── agents/
+│   ├── api/
+│   ├── services/
+│   ├── summarizer.py
+│   ├── search.py
+│   ├── recommendations.py
 │
-
-├── vector_db/
-
-├── prompts/
-
-├── uploads/
-
-├── outputs/
-
-├── docs/
-
-└── main.py
-
+├── database/
+├── utils/
+├── public/
+├── package.json
+└── README.md
 ```
 
 ---
 
-# 💡 Example Workflow
+# AI Agents
+
+| Agent | Responsibility |
+|--------|----------------|
+| Search Agent | Retrieves relevant research papers |
+| Summary Agent | Generates concise paper summaries |
+| Quality Agent | Evaluates paper credibility and impact |
+| Trend Agent | Identifies emerging research trends |
+| Recommendation Agent | Suggests related papers and future reading |
+
+---
+
+# Example Workflow
 
 ```text
+User searches
 
-Upload:
-↓
+"Brain-Computer Interfaces"
 
-Shareholder Agreement.docx
+        │
 
-↓
+        ▼
 
-Document Detection
+Search Semantic Scholar & arXiv
 
-↓
+        │
 
-Checklist Validation
+        ▼
 
-↓
+Collect Relevant Papers
 
-Risk Detection
+        │
 
-↓
+        ▼
 
-RAG Search
+Multi-Agent Analysis
 
-↓
+        │
 
-GPT Review
+        ▼
 
-↓
+Generate
 
-Reviewed Agreement.docx
+• Summary
 
-↓
+• Research Trends
 
-JSON Report
+• Quality Score
 
+• Citation Information
+
+• Related Papers
+
+        │
+
+        ▼
+
+Display Interactive Dashboard
 ```
 
 ---
 
-# 📊 AI Decision Flow
+# Future Improvements
 
-```mermaid
-sequenceDiagram
-
-participant User
-
-participant API
-
-participant Parser
-
-participant RAG
-
-participant GPT
-
-User->>API: Upload Document
-
-API->>Parser: Parse DOCX
-
-Parser->>RAG: Search ADGM Rules
-
-RAG->>GPT: Relevant Context
-
-GPT->>API: Suggestions
-
-API->>User: Reviewed DOCX + JSON
-```
+- PDF upload and analysis
+- Citation graph visualization
+- Personalized research recommendations
+- Research collaboration features
+- AI-powered literature review generation
+- Knowledge graph visualization
+- Local LLM support
+- Multi-language research assistance
 
 ---
 
-# 🌟 Highlights
+# License
 
-- AI Legal Assistant
-- Retrieval-Augmented Generation
-- LLM Reasoning
-- Document Intelligence
-- Clause Analysis
-- Compliance Automation
-- Legal NLP
-- JSON Report Generation
-- DOCX Review Engine
-
----
-
-<div align="center">
-
-## ⭐ If you like this project, don't forget to Star it!
-
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:00c6ff,100:0072ff&height=120&section=footer"/>
-
-</div>
+MIT License
